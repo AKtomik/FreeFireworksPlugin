@@ -1,0 +1,16 @@
+name: FreeFireworks
+version: 1.0.0
+main: io.github.AKtomik.freeFireworks.FreeFireworks
+api-version: 1.21
+
+commands:
+  firework:
+    description: Fire some fireworks
+    usage: /<command>
+    permission: freefireworks.launch
+
+permissions:
+  freefireworks.launch:
+    description: Allow launching some fireworks
+    default: true
+
