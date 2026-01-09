@@ -6,15 +6,23 @@ api-version: 1.21
 commands:
   firework:
     description: Fire some fireworks
-    usage: /<command>
+    usage: /<command> [effect] [color] [fade]
     aliases:
       - lanch
       - fireme
       - pfiou
-    permission: freefireworks.launch
+    permission: freefireworks.launch.me
+
+  fireplayer:
+    description: Fire some fireworks at player
+    usage: /<command> <player> [effect] [color] [fade]
+    permission: freefireworks.launch.others
 
 permissions:
-  freefireworks.launch:
-    description: Allow launching some fireworks
+  freefireworks.launch.me:
+    description: Allow launching some fireworks at yourself
     default: true
+  freefireworks.launch.others:
+    description: Allow launching some fireworks at others
+    default: not op
 
