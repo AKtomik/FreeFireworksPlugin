@@ -11,7 +11,7 @@ commands:
       - lanch
       - fireme
       - pfiou
-    permission: freefireworks.launch.me
+    permission: freefireworks.launch.self
 
   fireplayer:
     description: Fire some fireworks at player
@@ -19,7 +19,7 @@ commands:
     permission: freefireworks.launch.others
 
 permissions:
-  freefireworks.launch.me:
+  freefireworks.launch.self:
     description: Allow launching some fireworks at yourself
     default: true
   freefireworks.launch.others:

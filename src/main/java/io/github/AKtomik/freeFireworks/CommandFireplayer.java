@@ -63,7 +63,7 @@ public class CommandFireplayer implements CommandExecutor {
 
             return true;
         }
-        if (!player.hasPermission("freefireworks.launch")) {
+        if (!player.hasPermission("freefireworks.launch.others")) {
             player.sendMessage(Component.text("you dont have permission to use this command!").color(NamedTextColor.RED));
             return true;
         }
