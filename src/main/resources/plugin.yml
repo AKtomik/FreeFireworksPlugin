@@ -7,6 +7,10 @@ commands:
   firework:
     description: Fire some fireworks
     usage: /<command>
+    aliases:
+      - lanch
+      - fireme
+      - pfiou
     permission: freefireworks.launch
 
 permissions:
