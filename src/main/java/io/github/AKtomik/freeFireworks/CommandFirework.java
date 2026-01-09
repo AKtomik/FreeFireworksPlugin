@@ -61,7 +61,6 @@ public class CommandFirework implements CommandExecutor {
 
         if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text("only players can run this command!").color(NamedTextColor.RED));
-
             return true;
         }
         if (!player.hasPermission("freefireworks.launch.self")) {

@@ -3,6 +3,7 @@ package io.github.AKtomik.freeFireworks;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
@@ -57,14 +58,20 @@ public class CommandFireplayer implements CommandExecutor {
     // This method is called, when somebody uses our command
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("only players can run this command!").color(NamedTextColor.RED));
-
+        if (!sender.hasPermission("freefireworks.launch.others")) {
+            sender.sendMessage(Component.text("you dont have permission to use this command!").color(NamedTextColor.RED));
             return true;
         }
-        if (!player.hasPermission("freefireworks.launch.others")) {
-            player.sendMessage(Component.text("you dont have permission to use this command!").color(NamedTextColor.RED));
+
+        // player
+        if (args.length == 0) {
+            sender.sendMessage(Component.text("give a player!").color(NamedTextColor.RED));
+            return true;
+        }
+        Player player = Bukkit.getPlayer(args[0]);
+        if (player == null)
+        {
+            sender.sendMessage(Component.text("§ccan't find the player §l%s§c.".formatted(args[0])));
             return true;
         }
 
@@ -77,7 +84,7 @@ public class CommandFireplayer implements CommandExecutor {
         Color colorFade = null;
 
         // arg compute
-        for (int i = 0; i < Math.min(args.length, 3); i++) {
+        for (int i = 1; i < Math.min(args.length, 4); i++) {
             String arg = args[i];
             if (fireworkEffects.containsKey(arg) && fireEffect == null) {
                 fireEffect = fireworkEffects.get(arg);
@@ -102,7 +109,7 @@ public class CommandFireplayer implements CommandExecutor {
                     whatText += "color";
                 }
 
-                player.sendMessage(Component.text("§cthe %s §l%s§c does not exist.".formatted(whatText, arg)));
+                sender.sendMessage(Component.text("§cthe %s §l%s§c does not exist.".formatted(whatText, arg)));
                 return true;
             }
         }
@@ -143,7 +150,7 @@ public class CommandFireplayer implements CommandExecutor {
 
         TextColor firstTextColor = TextColor.color(colorFirst.getRed(), colorFirst.getGreen(), colorFirst.getBlue());
         TextColor fadeTextColor = TextColor.color(colorFade.getRed(), colorFade.getGreen(), colorFade.getBlue());
-        player.sendMessage(
+        sender.sendMessage(
                 Component.text(effectsTexts.get(fireEffect)).color(firstTextColor)
                 .append(Component.text("!").color(fadeTextColor)
                 )
