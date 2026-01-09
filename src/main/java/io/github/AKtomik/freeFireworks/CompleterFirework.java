@@ -1,5 +1,6 @@
 package io.github.AKtomik.freeFireworks;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -20,15 +21,30 @@ public class CompleterFirework implements TabCompleter {
 
         // init
         List<String> completions = new ArrayList<>();
+        boolean isEffect = false;
+        boolean isWrong = false;
+        int countColor = 0;
+
+        // arg compute
+        for (int i = 0; i < Math.min(args.length, 3); i++) {
+            String arg = args[i];
+            if (CommandFirework.fireworkEffects.containsKey(arg)) {
+                isEffect = true;
+            } else if (CommandFirework.fireworkColors.containsKey(arg)) {
+                countColor += 1;
+            } else if (i != args.length - 1) {
+                isWrong = true;
+            }
+        }
 
         // list
-        if (args.length == 1)
+        if (!isEffect)
         {
-            completions = CommandFirework.fireworkEffects.keySet().stream().toList();
+            completions.addAll(CommandFirework.fireworkEffects.keySet().stream().toList());
         }
-        else if (args.length <= 3)
+        if (countColor <= 1)
         {
-            completions = CommandFirework.fireworkColors.keySet().stream().toList();
+            completions.addAll(CommandFirework.fireworkColors.keySet().stream().toList());
         }
 
         // filter
