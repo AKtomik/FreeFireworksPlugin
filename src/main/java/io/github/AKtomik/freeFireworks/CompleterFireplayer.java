@@ -1,8 +1,10 @@
 package io.github.AKtomik.freeFireworks;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
@@ -20,32 +22,40 @@ public class CompleterFireplayer implements TabCompleter {
     ) {
         if (!sender.hasPermission("freefireworks.launch.others")) return List.of();
 
+
         // init
         List<String> completions = new ArrayList<>();
-        boolean isEffect = false;
-        boolean isWrong = false;
-        int countColor = 0;
 
-        // arg compute
-        for (int i = 0; i < Math.min(args.length, 3); i++) {
-            String arg = args[i];
-            if (CommandFirework.fireworkEffects.containsKey(arg)) {
-                isEffect = true;
-            } else if (CommandFirework.fireworkColors.containsKey(arg)) {
-                countColor += 1;
-            } else if (i != args.length - 1) {
-                isWrong = true;
+        if (args.length <= 1)
+        {
+            completions.addAll(Bukkit.getOnlinePlayers().stream()
+            .map(Player::getName)
+            .toList());
+        } else {
+            // arg compute
+            boolean isEffect = false;
+            boolean isWrong = false;
+            int countColor = 0;
+            for (int i = 1; i < Math.min(args.length, 4); i++) {
+                String arg = args[i];
+                if (CommandFirework.fireworkEffects.containsKey(arg)) {
+                    isEffect = true;
+                } else if (CommandFirework.fireworkColors.containsKey(arg)) {
+                    countColor += 1;
+                } else if (i != args.length - 1) {
+                    isWrong = true;
+                }
             }
-        }
 
-        // list
-        if (!isEffect)
-        {
-            completions.addAll(CommandFirework.fireworkEffects.keySet().stream().toList());
-        }
-        if (countColor <= 1)
-        {
-            completions.addAll(CommandFirework.fireworkColors.keySet().stream().toList());
+            // list
+            if (!isEffect)
+            {
+                completions.addAll(CommandFirework.fireworkEffects.keySet().stream().toList());
+            }
+            if (countColor <= 1)
+            {
+                completions.addAll(CommandFirework.fireworkColors.keySet().stream().toList());
+            }
         }
 
         // filter
