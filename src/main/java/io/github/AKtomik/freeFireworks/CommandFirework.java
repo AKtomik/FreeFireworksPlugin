@@ -46,6 +46,14 @@ public class CommandFirework implements CommandExecutor {
             Map.entry("creeper", FireworkEffect.Type.CREEPER)
     );
 
+    public static Map<FireworkEffect.Type, String> effectsTexts = Map.ofEntries(
+            Map.entry(FireworkEffect.Type.BALL, "PFIOUU"),
+            Map.entry(FireworkEffect.Type.BALL_LARGE, "PFIOUUUUUU"),
+            Map.entry(FireworkEffect.Type.STAR, "PFWAA"),
+            Map.entry(FireworkEffect.Type.BURST, "PFBOOM"),
+            Map.entry(FireworkEffect.Type.CREEPER, "PFOWMAN")
+    );
+
 
     // This method is called, when somebody uses our command
     @Override
@@ -122,7 +130,7 @@ public class CommandFirework implements CommandExecutor {
         TextColor firstTextColor = TextColor.color(colorFirst.getRed(), colorFirst.getGreen(), colorFirst.getBlue());
         TextColor fadeTextColor = TextColor.color(colorFade.getRed(), colorFade.getGreen(), colorFade.getBlue());
         player.sendMessage(
-                Component.text("PFIOUU").color(firstTextColor)
+                Component.text(effectsTexts.get(fireEffect)).color(firstTextColor)
                 .append(Component.text("!").color(fadeTextColor)
                 )
         );
