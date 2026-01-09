@@ -80,15 +80,30 @@ public class CommandFirework implements CommandExecutor {
         // arg compute
         for (int i = 0; i < Math.min(args.length, 3); i++) {
             String arg = args[i];
-            if (fireworkEffects.containsKey(arg)) {
+            if (fireworkEffects.containsKey(arg) && fireEffect == null) {
                 fireEffect = fireworkEffects.get(arg);
-            } else if (fireworkColors.containsKey(arg)) {
+            } else if (fireworkColors.containsKey(arg) && colorFade == null) {
                 if (colorFirst == null)
                     colorFirst = fireworkColors.get(arg);
                 else
                     colorFade = fireworkColors.get(arg);
             } else {
-                player.sendMessage(Component.text("§cthe effect/color §l%s§c does not exist.".formatted(arg)));
+
+                String whatText = "";
+                if (fireEffect == null)
+                {
+                    whatText += "effect";
+                }
+                if (colorFade == null)
+                {
+                    if (!whatText.isEmpty())
+                    {
+                        whatText += "/";
+                    }
+                    whatText += "color";
+                }
+
+                player.sendMessage(Component.text("§cthe %s §l%s§c does not exist.".formatted(whatText, arg)));
                 return true;
             }
         }
