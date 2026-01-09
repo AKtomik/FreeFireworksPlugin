@@ -64,40 +64,43 @@ public class CommandFirework implements CommandExecutor {
         // pick
         Random rand = new Random();
         FireworkEffect.Type[] effectValues = fireworkEffects.values().toArray(new FireworkEffect.Type[0]);
-        FireworkEffect.Type fireEffect;
+        FireworkEffect.Type fireEffect = null;
         Color[] colorValues = fireworkColors.values().toArray(new Color[0]);
-        Color colorFirst;
-        Color colorFade;
+        Color colorFirst = null;
+        Color colorFade = null;
 
-        if (args.length == 0) {
-            fireEffect = effectValues[rand.nextInt(effectValues.length)];
-            //fireEffect = FireworkEffect.Type.BALL;
-        } else {
-            if (!fireworkEffects.containsKey(args[0])) {
-                player.sendMessage(Component.text("§rthe effect §l%s§r does not exist.".formatted(args[0])));
+        // arg compute
+        for (int i = 0; i < Math.min(args.length, 3); i++) {
+            String arg = args[i];
+            if (fireworkEffects.containsKey(arg)) {
+                fireEffect = fireworkEffects.get(arg);
+            } else if (fireworkColors.containsKey(arg)) {
+                if (colorFirst == null)
+                    colorFirst = fireworkColors.get(arg);
+                else
+                    colorFade = fireworkColors.get(arg);
+            } else {
+                player.sendMessage(Component.text("§cthe effect/color §l%s§c does not exist.".formatted(arg)));
                 return true;
             }
-            fireEffect = fireworkEffects.get(args[0]);
         }
 
-        if (args.length <= 1) {
-            colorFirst = colorValues[rand.nextInt(colorValues.length)];
+        // default
+        if (fireEffect == null)
+        {
+            //fireEffect = effectValues[rand.nextInt(effectValues.length)];
+            fireEffect = FireworkEffect.Type.BALL;
+        }
+
+        if (colorFirst == null)
+        {
             colorFade = colorValues[rand.nextInt(colorValues.length)];
-        } else {
-            if (!fireworkColors.containsKey(args[1])) {
-                player.sendMessage(Component.text("§rthe color §l%s§r does not exist.".formatted(args[1])));
-                return true;
-            }
-            colorFirst = fireworkColors.get(args[1]);
-            if (args.length == 2) {
-                colorFade = colorFirst;
-            } else {
-                if (!fireworkColors.containsKey(args[2])) {
-                    player.sendMessage(Component.text("§rthe color §l%s§r does not exist.".formatted(args[2])));
-                    return true;
-                }
-                colorFade = fireworkColors.get(args[2]);
-            }
+            colorFirst = colorValues[rand.nextInt(colorValues.length)];
+        }
+
+        if (colorFade == null)
+        {
+            colorFade = colorFirst;
         }
 
         // build
