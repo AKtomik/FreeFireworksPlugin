@@ -22,7 +22,6 @@ public class CompleterFireplayer implements TabCompleter {
     ) {
         if (!sender.hasPermission("freefireworks.launch.others")) return List.of();
 
-
         // init
         List<String> completions = new ArrayList<>();
 

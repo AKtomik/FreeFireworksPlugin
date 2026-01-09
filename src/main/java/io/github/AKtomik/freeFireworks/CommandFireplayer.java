@@ -59,7 +59,7 @@ public class CommandFireplayer implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.hasPermission("freefireworks.launch.others")) {
-            sender.sendMessage(Component.text("you dont have permission to use this command!").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("you don't have permission to use this command!").color(NamedTextColor.RED));
             return true;
         }
 
